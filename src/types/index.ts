@@ -3,7 +3,6 @@ export interface ImageData {
     id: number
     url: string
     name?: string
-    caption?: string
 }
 
 export interface SectionProps {
@@ -19,3 +18,9 @@ export interface ImageCardProps {
     onRemove: (id: number) => void
 }
 
+export interface Section {
+    id: number
+    title: string
+    type: "array" | "text",
+    data: ImageData[] | []
+}

@@ -1,10 +1,27 @@
 'use client'
-import { useState } from "react"
-import type { ImageData, SectionProps } from "@/types"
-import Section from "./Section"
+import { useEffect, useState } from "react"
+import type { ImageData, Section, SectionProps } from "@/types"
+import CustomSection from "./CustomSection"
+import { createDefaultSections, getSections } from "@/services/storage.service"
+
 
 
 export default function MainBody() {
+    const [sectionsData, setSectionsData] = useState<Section[]>([])
+
+    useEffect(() => {
+        const fetchSections = async () => {
+            const result = await getSections();
+            if (result) {
+                setSectionsData(result)
+            } else {
+                const data = await createDefaultSections()
+                setSectionsData(data)
+            }
+        }
+        fetchSections()
+    }, [])
+
     const [activeModal, setActiveModal] = useState<"section1" | "section2" | null>(null)
     const [sections, setSections] = useState<SectionProps[]>([
         {
@@ -26,7 +43,6 @@ export default function MainBody() {
                 id: 1,
                 url: "https://images.unsplash.com/photo-1498462440456-0dba182e775b?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
                 name: "Spider-Man",
-                caption: "adsasdasdasdd",
             }
             ]
         },
@@ -59,10 +75,10 @@ export default function MainBody() {
 
 
     return (
-        <div className="container pt-24 md:pt-36 mx-auto flex flex-col items-center">
+        <div className="container mx-auto flex flex-col items-center">
             <div className="w-full px-20">
                 {sections.map((section) => (
-                    <Section
+                    <CustomSection
                         key={section.id}
                         id={section.id}
                         title={section.title}

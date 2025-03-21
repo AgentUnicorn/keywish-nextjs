@@ -34,6 +34,7 @@ body {
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
   }
+
   .dark {
     --background: 240 10% 3.9%;
     --foreground: 0 0% 98%;
@@ -66,7 +67,18 @@ body {
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
   }
+}
+
+.global-notification {
+  /* background-color: #4CAF50;  */
+  color: white;
+  padding: 0 25px 0 25px;
+  border-radius: 5px;
+  cursor: pointer;
+  z-index: 19;
+  animation: fadeInRight 0.5s ease-in forwards;
 }
