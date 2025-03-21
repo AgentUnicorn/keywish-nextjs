@@ -7,8 +7,10 @@ export interface ImageData {
 }
 
 export interface SectionProps {
+    id: number,
     title: string
-    children: React.ReactNode
+    type: "array" | "text",
+    data: ImageData[]
     onAdd?: () => void
 }
 
