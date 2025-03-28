@@ -3,11 +3,13 @@ import { useEffect, useState } from "react"
 import type { ImageData, Section, SectionProps } from "@/types"
 import CustomSection from "./CustomSection"
 import { createDefaultSections, getSections } from "@/services/storage.service"
+import { useTranslations } from "next-intl"
 
 
 
 export default function MainBody() {
     const [sectionsData, setSectionsData] = useState<Section[]>([])
+    const t = useTranslations('Common')
 
     useEffect(() => {
         const fetchSections = async () => {
@@ -26,7 +28,7 @@ export default function MainBody() {
     const [sections, setSections] = useState<SectionProps[]>([
         {
             id: 1,
-            title: "Section 1",
+            title: t("default.section.section1"),
             type: "array",
             data: [{
                 id: 1,
@@ -37,7 +39,7 @@ export default function MainBody() {
         },
         {
             id: 2,
-            title: "Section 2",
+            title: t("default.section.section2"),
             type: "array",
             data: [{
                 id: 1,

@@ -1,3 +1,14 @@
 {
-  "Home": {}
+  "Home": {},
+  "Common":{
+    "button": {
+      "add": "Thêm"
+    },
+    "default": {
+      "section": {
+        "section1": "Phần 1",
+        "section2": "Phần 2"
+      } 
+    }
+  } 
 }
