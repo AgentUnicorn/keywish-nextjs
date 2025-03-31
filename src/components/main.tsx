@@ -3,50 +3,29 @@ import { useEffect, useState } from "react"
 import type { ImageData, Section, SectionProps } from "@/types"
 import CustomSection from "./CustomSection"
 import { createDefaultSections, getSections } from "@/services/storage.service"
+import { useTranslations } from "next-intl"
 
 
 
 export default function MainBody() {
-    const [sectionsData, setSectionsData] = useState<Section[]>([])
+    const t = useTranslations('Common')
+    const [sections, setSections] = useState<Section[]>([])
+    const [activeModal, setActiveModal] = useState<"section1" | "section2" | null>(null)
 
     useEffect(() => {
         const fetchSections = async () => {
             const result = await getSections();
             if (result) {
-                setSectionsData(result)
+                console.log("hihi")
+                console.log(result)
+                setSections(result)
             } else {
                 const data = await createDefaultSections()
-                setSectionsData(data)
+                setSections(data)
             }
         }
         fetchSections()
     }, [])
-
-    const [activeModal, setActiveModal] = useState<"section1" | "section2" | null>(null)
-    const [sections, setSections] = useState<SectionProps[]>([
-        {
-            id: 1,
-            title: "Section 1",
-            type: "array",
-            data: [{
-                id: 1,
-                url: "https://images.unsplash.com/photo-1498462440456-0dba182e775b?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                name: "Beach Scene",
-            },
-            ]
-        },
-        {
-            id: 2,
-            title: "Section 2",
-            type: "array",
-            data: [{
-                id: 1,
-                url: "https://images.unsplash.com/photo-1498462440456-0dba182e775b?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-                name: "Spider-Man",
-            }
-            ]
-        },
-    ])
 
 
     // const removeImage = (section: keyof typeof sections, id: number) => {

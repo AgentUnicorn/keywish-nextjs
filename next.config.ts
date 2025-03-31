@@ -1,18 +1,20 @@
-import type { NextConfig } from "next";
-import fs from 'fs'
+import createNextIntlPlugin from 'next-intl/plugin';
+import type { NextConfig } from 'next';
+import fs from 'fs';
 
-const version = fs.readFileSync('./VERSION', 'utf-8')
-const timestamp = fs.readFileSync('./TIMESTAMP', 'utf-8')
+const withNextIntl = createNextIntlPlugin();
+const version = fs.readFileSync('./VERSION', 'utf-8');
+const timestamp = fs.readFileSync('./TIMESTAMP', 'utf-8');
 
 const nextConfig: NextConfig = {
   /* config options here */
-    images: {
-        domains: ['images.unsplash.com']
-    },
-    env: {
-        NEXT_PUBLIC_VERSION: version,
-        NEXT_PUBLIC_TIMESTAMP: timestamp
-    }
+  images: {
+    domains: ['images.unsplash.com'],
+  },
+  env: {
+    NEXT_PUBLIC_VERSION: version,
+    NEXT_PUBLIC_TIMESTAMP: timestamp,
+  },
 };
 
-export default nextConfig;
+export default withNextIntl(nextConfig);

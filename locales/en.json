@@ -1,0 +1,14 @@
+{
+  "Home": {},
+  "Common": {
+    "button": {
+      "add": "Add"
+    },
+    "default": {
+      "section": {
+        "section1": "Section 1",
+        "section2": "Section 2"
+      }
+    }
+  }
+}
