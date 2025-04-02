@@ -1,12 +1,12 @@
 "use client"
 
-import {useState, useRef, type ChangeEvent} from "react"
-import ReactCrop, {type Crop} from "react-image-crop"
-import {Dialog, DialogContent, DialogHeader, DialogTitle} from "@/components/ui/dialog"
-import {Input} from "@/components/ui/input"
-import {Label} from "@/components/ui/label"
-import {Button} from "@/components/ui/button"
-import {ImageIcon} from "lucide-react"
+import { useState, useRef, type ChangeEvent } from "react"
+import ReactCrop, { type Crop } from "react-image-crop"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Button } from "@/components/ui/button"
+import { ImageIcon } from "lucide-react"
 import "react-image-crop/dist/ReactCrop.css"
 
 interface AddImageModalProps {
@@ -15,7 +15,7 @@ interface AddImageModalProps {
     onAdd: (imageData: { name: string; url: string }) => void
 }
 
-export function AddImageModal({isOpen, onClose, onAdd}: AddImageModalProps) {
+export function AddImageModal({ isOpen, onClose, onAdd }: AddImageModalProps) {
     const [name, setName] = useState("")
     const [imageUrl, setImageUrl] = useState("")
     const [selectedFile, setSelectedFile] = useState<File | null>(null)
@@ -53,7 +53,7 @@ export function AddImageModal({isOpen, onClose, onAdd}: AddImageModalProps) {
             // 1. Upload the cropped image to your server
             // 2. Get back the URL of the uploaded image
             // For now, we'll just use the preview URL
-            onAdd({name, url: previewUrl})
+            onAdd({ name, url: previewUrl })
             handleClose()
         }
     }
@@ -83,21 +83,21 @@ export function AddImageModal({isOpen, onClose, onAdd}: AddImageModalProps) {
                     <div className="grid gap-2">
                         <Label htmlFor="name">Name</Label>
                         <Input id="name" value={name} onChange={(e) => setName(e.target.value)}
-                               placeholder="Enter image name"/>
+                            placeholder="Enter image name" />
                     </div>
 
                     <div className="grid gap-2">
                         <Label htmlFor="imageUrl">Image Link</Label>
-                        <Input id="imageUrl" value={imageUrl} onChange={handleUrlChange} placeholder="Enter image URL"/>
+                        <Input id="imageUrl" value={imageUrl} onChange={handleUrlChange} placeholder="Enter image URL" />
                     </div>
 
                     <div className="grid gap-2">
                         <Label htmlFor="uploadImage">Upload Image</Label>
                         <div className="flex gap-2 items-center">
                             <Input id="uploadImage" type="file" onChange={handleFileChange} accept="image/*"
-                                   className="flex-1"/>
+                                className="flex-1" />
                             <Button variant="outline" size="icon" className="shrink-0">
-                                <ImageIcon className="h-4 w-4"/>
+                                <ImageIcon className="h-4 w-4" />
                             </Button>
                         </div>
                     </div>
@@ -107,7 +107,7 @@ export function AddImageModal({isOpen, onClose, onAdd}: AddImageModalProps) {
                             <Label>Preview & Crop</Label>
                             <div className="mt-2 max-h-[400px] overflow-auto border rounded-lg">
                                 <ReactCrop crop={crop} onChange={(c) => setCrop(c)} aspect={1} minHeight={250}
-                                           minWidth={250} maxHeight={250} maxWidth={250}>
+                                    minWidth={250} maxHeight={250} maxWidth={250}>
                                     <img
                                         ref={imageRef}
                                         src={previewUrl || "/placeholder.svg"}
@@ -124,7 +124,7 @@ export function AddImageModal({isOpen, onClose, onAdd}: AddImageModalProps) {
                         Cancel
                     </Button>
                     <Button onClick={handleCreate} disabled={!name || !previewUrl}
-                            className="bg-blue-500 hover:bg-blue-600">
+                        className="bg-blue-500 hover:bg-blue-600">
                         Create
                     </Button>
                 </div>

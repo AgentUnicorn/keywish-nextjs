@@ -1,32 +1,44 @@
 'use client'
 import { useEffect, useState } from "react"
-import type { ImageData, Section, SectionProps } from "@/types"
+import type { ImageData, Section } from "@/types"
 import CustomSection from "./CustomSection"
-import { createDefaultSections, getSections } from "@/services/storage.service"
+import { createDefaultSections, getSections, saveSections } from "@/services/storage.service"
 import { useTranslations } from "next-intl"
-
-
+import { AddImageModal } from "./AddImageModal"
 
 export default function MainBody() {
     const t = useTranslations('Common')
     const [sections, setSections] = useState<Section[]>([])
-    const [activeModal, setActiveModal] = useState<"section1" | "section2" | null>(null)
+    const [editingSectionId, setEditingSectionId] = useState<number | null>(null)
+    const [activeModal, setActiveModal] = useState<number | null>(null)
 
     useEffect(() => {
         const fetchSections = async () => {
             const result = await getSections();
             if (result) {
-                console.log("hihi")
-                console.log(result)
                 setSections(result)
             } else {
                 const data = await createDefaultSections()
+                console.log("data: ", data)
                 setSections(data)
             }
         }
         fetchSections()
     }, [])
 
+    const handleUpdateSection = ({ id, value }: { id: number, value: string }) => {
+        setSections((prev) => {
+            const updatedSections = prev.map(section =>
+                section.id === id
+                    ? { ...section, title: value }
+                    : section
+
+            );
+            saveSections(updatedSections)
+            return updatedSections
+        })
+        setEditingSectionId(null)
+    }
 
     // const removeImage = (section: keyof typeof sections, id: number) => {
     //     setSections((prev) => ({
@@ -35,23 +47,20 @@ export default function MainBody() {
     //     }))
     //   }
 
-    //   const addImage = (section: keyof typeof sections, imageData: { name: string; url: string }) => {
-    //     setSections((prev) => ({
-    //       ...prev,
-    //       [section]: [
-    //         ...prev[section],
-    //         {
-    //           id: Math.max(0, ...prev[section].map((img) => img.id)) + 1,
-    //           url: imageData.url,
-    //           name: imageData.name,
-    //         },
-    //       ],
-    //     }))
-    //   }
-
-
-
-
+    const addImage = (sectionId: number, imageData: { name: string; url: string }) => {
+        console.log(sectionId, imageData)
+        // setSections((prev) => ({
+        //   ...prev,
+        //   [section]: [
+        //     ...prev[section],
+        //     {
+        //       id: Math.max(0, ...prev[section].map((img) => img.id)) + 1,
+        //       url: imageData.url,
+        //       name: imageData.name,
+        //     },
+        //   ],
+        // }))
+    }
 
     return (
         <div className="container mx-auto flex flex-col items-center">
@@ -59,13 +68,23 @@ export default function MainBody() {
                 {sections.map((section) => (
                     <CustomSection
                         key={section.id}
-                        id={section.id}
-                        title={section.title}
-                        type={section.type}
-                        data={section.data}
+                        section={section}
+                        isEditing={editingSectionId === section.id}
+                        onTitleSave={({ id, value }) => handleUpdateSection({ id, value })}
+                        onEditStart={() => setEditingSectionId(section.id)}
+                        onEditCancel={() => setEditingSectionId(null)}
                     />
                 ))}
             </div>
+
+            <AddImageModal
+                isOpen={activeModal !== null}
+                onClose={() => setActiveModal(null)}
+                onAdd={(imageData) => {
+                    if (activeModal) addImage(activeModal, imageData)
+                }}
+            />
+
 
             {/* <Section title="Section 2" onAdd={() => setActiveModal("section2")}>
                 {sections.section2.map((image) => (

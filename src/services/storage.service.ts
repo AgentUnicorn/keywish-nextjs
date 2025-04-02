@@ -14,12 +14,21 @@ export async function createDefaultSections() {
       title: 'Section 1',
       type: 'array',
       data: [],
+      content: ''
     },
     {
       id: 2,
       title: 'Section 2',
       type: 'array',
       data: [],
+      content: ''
+    },
+    {
+      id: 3,
+      title: 'Section 3',
+      type: 'text',
+      content: '',
+      data: []
     },
   ];
 
@@ -30,4 +39,3 @@ export async function createDefaultSections() {
 export async function saveSections(sections: Section[]) {
   return await saveData('sections', MAIN_ID, sections);
 }
-

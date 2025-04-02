@@ -48,7 +48,7 @@ export const getData = async (storeName: string, id: string): Promise<Section[] 
   const request = store.get(id);
 
   return new Promise((resolve, reject) => {
-    request.onsuccess = () => resolve(request.result.data as Section[] | null);
+    request.onsuccess = () => resolve(request.result as Section[] | null);
     request.onerror = () => reject(request.error);
   });
 };
