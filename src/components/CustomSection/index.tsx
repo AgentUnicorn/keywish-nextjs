@@ -12,6 +12,7 @@ export interface SectionProps {
     onEditCancel: () => void;
     onAdd: () => void;
     onRemove: (id: string) => void;
+    onUpdateTextArea: (value: string) => void;
 }
 
 export default function CustomSection({
@@ -21,7 +22,8 @@ export default function CustomSection({
     onTitleSave,
     onEditCancel,
     onAdd,
-    onRemove
+    onRemove,
+    onUpdateTextArea
 }: SectionProps) {
     return (
         <div className="section flex flex-col items-center w-full mb-7">
@@ -48,7 +50,7 @@ export default function CustomSection({
             {section.type === 'array' ? (
                 <SectionContent data={section?.data || []} onRemove={onRemove} />
             ) : (
-                <SectionTextArea />
+                <SectionTextArea onUpdate={onUpdateTextArea} />
             )}
         </div>
     )

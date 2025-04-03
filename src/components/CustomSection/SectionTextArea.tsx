@@ -1,8 +1,15 @@
-export default function SectionTextArea() {
+
+interface SectionTextAreaProps {
+    onUpdate: (value: string) => void
+}
+
+export default function SectionTextArea({ onUpdate }: SectionTextAreaProps) {
+
     return (
         <div className="w-full mt-3">
             <div className="w-[35%]">
                 <textarea
+                    onChange={(e) => onUpdate(e.target.value)}
                     id="floatingTextarea"
                     rows={4}
                     className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 

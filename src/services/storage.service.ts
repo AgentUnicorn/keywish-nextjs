@@ -33,6 +33,7 @@ export async function createDefaultSections() {
     },
   ];
 
+  console.log('defaultSections:', defaultSections);
   await saveData('sections', MAIN_ID, defaultSections);
   return defaultSections;
 }

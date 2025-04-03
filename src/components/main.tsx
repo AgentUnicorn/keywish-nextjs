@@ -5,7 +5,7 @@ import CustomSection from "./CustomSection"
 import { createDefaultSections, getSections, saveSections } from "@/services/storage.service"
 import { useTranslations } from "next-intl"
 import { AddImageModal } from "./AddImageModal"
-import { createKeycap, removeKeycap } from "@/services/wishlist.service"
+import { createKeycap, removeKeycap, updateTextInput } from "@/services/wishlist.service"
 import SectionContent from "./CustomSection/SectionContent"
 
 export default function MainBody() {
@@ -17,11 +17,10 @@ export default function MainBody() {
     useEffect(() => {
         const fetchSections = async () => {
             const result = await getSections();
-            if (result) {
+            if (result.length > 0) {
                 setSections(result)
             } else {
                 const data = await createDefaultSections()
-                console.log("data: ", data)
                 setSections(data)
             }
         }
@@ -50,6 +49,10 @@ export default function MainBody() {
         setSections(createKeycap({ sections, sectionId, imageData }))
     }
 
+    const updateTextArea = (sectionId: number, value: string) => {
+        setSections(updateTextInput({ sections, sectionId, value }))
+    }
+
     return (
         <div className="container mx-auto flex flex-col items-center">
             <div className="w-full px-20">
@@ -64,6 +67,7 @@ export default function MainBody() {
                             onEditCancel={() => setEditingSectionId(null)}
                             onAdd={() => setActiveModal(section.id)}
                             onRemove={(id) => removeImage(section.id, id)}
+                            onUpdateTextArea={(value) => updateTextArea(section.id, value)}
                         />
                     </>
                 ))}

@@ -50,3 +50,23 @@ export const removeKeycap = ({
   saveSections(updatedSections);
   return updatedSections;
 };
+
+export const updateTextInput = ({
+  sections,
+  sectionId,
+  value,
+}: {
+  sections: Section[];
+  sectionId: number;
+  value: string;
+}) => {
+  const updatedSections = sections.map((section) => {
+    if (section.id === sectionId && section.type === 'text') {
+      console.log('content', value);
+      return { ...section, content: value };
+    }
+    return section;
+  });
+  saveSections(updatedSections);
+  return updatedSections;
+};
