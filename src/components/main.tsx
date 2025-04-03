@@ -5,6 +5,8 @@ import CustomSection from "./CustomSection"
 import { createDefaultSections, getSections, saveSections } from "@/services/storage.service"
 import { useTranslations } from "next-intl"
 import { AddImageModal } from "./AddImageModal"
+import { createKeycap, removeKeycap } from "@/services/wishlist.service"
+import SectionContent from "./CustomSection/SectionContent"
 
 export default function MainBody() {
     const t = useTranslations('Common')
@@ -40,40 +42,30 @@ export default function MainBody() {
         setEditingSectionId(null)
     }
 
-    // const removeImage = (section: keyof typeof sections, id: number) => {
-    //     setSections((prev) => ({
-    //       ...prev,
-    //       [section]: prev[section].filter((img) => img.id !== id),
-    //     }))
-    //   }
+    const removeImage = (sectionId: number, keycapId: string) => {
+        setSections(removeKeycap({ sections, sectionId, keycapId }))
+    }
 
     const addImage = (sectionId: number, imageData: { name: string; url: string }) => {
-        console.log(sectionId, imageData)
-        // setSections((prev) => ({
-        //   ...prev,
-        //   [section]: [
-        //     ...prev[section],
-        //     {
-        //       id: Math.max(0, ...prev[section].map((img) => img.id)) + 1,
-        //       url: imageData.url,
-        //       name: imageData.name,
-        //     },
-        //   ],
-        // }))
+        setSections(createKeycap({ sections, sectionId, imageData }))
     }
 
     return (
         <div className="container mx-auto flex flex-col items-center">
             <div className="w-full px-20">
                 {sections.map((section) => (
-                    <CustomSection
-                        key={section.id}
-                        section={section}
-                        isEditing={editingSectionId === section.id}
-                        onTitleSave={({ id, value }) => handleUpdateSection({ id, value })}
-                        onEditStart={() => setEditingSectionId(section.id)}
-                        onEditCancel={() => setEditingSectionId(null)}
-                    />
+                    <>
+                        <CustomSection
+                            key={section.id}
+                            section={section}
+                            isEditing={editingSectionId === section.id}
+                            onTitleSave={({ id, value }) => handleUpdateSection({ id, value })}
+                            onEditStart={() => setEditingSectionId(section.id)}
+                            onEditCancel={() => setEditingSectionId(null)}
+                            onAdd={() => setActiveModal(section.id)}
+                            onRemove={(id) => removeImage(section.id, id)}
+                        />
+                    </>
                 ))}
             </div>
 
@@ -84,25 +76,6 @@ export default function MainBody() {
                     if (activeModal) addImage(activeModal, imageData)
                 }}
             />
-
-
-            {/* <Section title="Section 2" onAdd={() => setActiveModal("section2")}>
-                {sections.section2.map((image) => (
-                    <ImageCard key={image.id} image={image} onRemove={(id) => removeImage("section2", id)} />
-                ))}
-            </Section>
-
-            <Section title="Section 3">
-                <Card className="w-full p-3 flex items-center gap-2">
-                    <Input placeholder="Type your message..." className="flex-1" defaultValue="adsdad" />
-                    <Button variant="ghost" size="icon">
-                        <Mic className="w-4 h-4" />
-                    </Button>
-                    <Button variant="ghost" size="icon">
-                        <ImageIcon className="w-4 h-4" />
-                    </Button>
-                </Card>
-            </Section> */}
         </div>
     )
 }

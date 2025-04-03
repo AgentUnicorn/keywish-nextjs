@@ -1,5 +1,3 @@
-"use client"
-
 import { useState, useRef, type ChangeEvent } from "react"
 import ReactCrop, { type Crop } from "react-image-crop"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
@@ -49,10 +47,6 @@ export function AddImageModal({ isOpen, onClose, onAdd }: AddImageModalProps) {
 
     const handleCreate = () => {
         if (previewUrl && name) {
-            // Here you would typically:
-            // 1. Upload the cropped image to your server
-            // 2. Get back the URL of the uploaded image
-            // For now, we'll just use the preview URL
             onAdd({ name, url: previewUrl })
             handleClose()
         }
@@ -75,7 +69,7 @@ export function AddImageModal({ isOpen, onClose, onAdd }: AddImageModalProps) {
 
     return (
         <Dialog open={isOpen} onOpenChange={handleClose}>
-            <DialogContent className="sm:max-w-[600px]">
+            <DialogContent className="sm:max-w-[800px]">
                 <DialogHeader>
                     <DialogTitle className="text-xl font-semibold">Create your keycap</DialogTitle>
                 </DialogHeader>
@@ -112,7 +106,7 @@ export function AddImageModal({ isOpen, onClose, onAdd }: AddImageModalProps) {
                                         ref={imageRef}
                                         src={previewUrl || "/placeholder.svg"}
                                         alt="Preview"
-                                        className="max-w-full h-auto"
+                                        className="w-auto h-[200px]"
                                     />
                                 </ReactCrop>
                             </div>

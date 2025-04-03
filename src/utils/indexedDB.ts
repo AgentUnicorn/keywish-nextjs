@@ -1,5 +1,10 @@
 import { Section } from '@/types';
 
+interface GetDataRes {
+  id: string;
+  data: Section[];
+}
+
 export const openDB = (dbName: string, version: number = 1): Promise<IDBDatabase> => {
   return new Promise((resolve, reject) => {
     if (typeof indexedDB === 'undefined') {
@@ -41,14 +46,14 @@ export const saveData = async (storeName: string, id: string, data: Section[]): 
   });
 };
 
-export const getData = async (storeName: string, id: string): Promise<Section[] | null> => {
+export const getData = async (storeName: string, id: string): Promise<GetDataRes | null> => {
   const db = await openDB('myDatabase');
   const transaction = db.transaction(storeName, 'readonly');
   const store = transaction.objectStore(storeName);
   const request = store.get(id);
 
   return new Promise((resolve, reject) => {
-    request.onsuccess = () => resolve(request.result as Section[] | null);
+    request.onsuccess = () => resolve(request.result as GetDataRes | null);
     request.onerror = () => reject(request.error);
   });
 };

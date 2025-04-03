@@ -1,6 +1,8 @@
 import SectionHeader from "./SectionHeader"
 import SectionContent from "./SectionContent"
 import { Section, UpdateSectionProps } from "@/types";
+import SectionTextArea from "./SectionTextArea";
+import { Button } from "../ui/button";
 
 export interface SectionProps {
     section: Section;
@@ -8,6 +10,8 @@ export interface SectionProps {
     onEditStart: () => void;
     onTitleSave: UpdateSectionProps;
     onEditCancel: () => void;
+    onAdd: () => void;
+    onRemove: (id: string) => void;
 }
 
 export default function CustomSection({
@@ -15,40 +19,38 @@ export default function CustomSection({
     isEditing,
     onEditStart,
     onTitleSave,
-    onEditCancel
+    onEditCancel,
+    onAdd,
+    onRemove
 }: SectionProps) {
     return (
-        <div className="section flex flex-col items-center w-full mb-5">
-            <SectionHeader
-                id={section.id}
-                title={section.title}
-                isEditing={isEditing}
-                onEdit={onEditStart}
-                onCancel={onEditCancel}
-                onUpdate={onTitleSave}
-            />
+        <div className="section flex flex-col items-center w-full mb-7">
+            <div className="flex w-full relative items-center">
+                <SectionHeader
+                    id={section.id}
+                    title={section.title}
+                    isEditing={isEditing}
+                    onEdit={onEditStart}
+                    onCancel={onEditCancel}
+                    onUpdate={onTitleSave}
+                />
 
+                {section.type === 'array' && (
+                    <Button
+                        onClick={onAdd}
+                        variant="default"
+                        className="flex items-center text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl font-medium rounded-lg text-sm px-4 py-2.5 text-center me-2 absolute right-0 bottom-0"
+                    >
+                        Add
+                    </Button>
+                )}
+            </div >
             {section.type === 'array' ? (
-                <SectionContent data={section?.data || []} />
+                <SectionContent data={section?.data || []} onRemove={onRemove} />
             ) : (
-                <>
-                    <div className="w-[35%]">
-                        <label className="block mb-2 text-lg font-medium text-gray-900 dark:text-white">Your note</label>
-                        <textarea
-                            id="floatingTextarea"
-                            rows={4}
-                            className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 
-                                focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
-                                content: ''
-                                dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="Write your note here..."
-                        >
-                        </textarea>
-                    </div>
-                </>
-            )
-            }
-        </div >
+                <SectionTextArea />
+            )}
+        </div>
     )
 }
 

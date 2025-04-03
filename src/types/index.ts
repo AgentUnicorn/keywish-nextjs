@@ -1,8 +1,8 @@
 import { Update } from 'next/dist/build/swc/types';
 import type React from 'react';
 export interface ImageData {
-  id: number;
-  url: string;
+  id: string;
+  img_url: string;
   name?: string;
 }
 
@@ -17,6 +17,6 @@ export interface Section {
   id: number;
   title: string;
   type: 'array' | 'text';
-  data?: ImageData[] | [];
+  data?: ImageData[];
   content?: string;
 }

@@ -4,7 +4,8 @@ import { getData, saveData } from '@/utils/indexedDB';
 
 export async function getSections() {
   const sections = await getData('sections', MAIN_ID);
-  return sections;
+  if (!sections) return [];
+  return sections.data;
 }
 
 export async function createDefaultSections() {
@@ -14,21 +15,21 @@ export async function createDefaultSections() {
       title: 'Section 1',
       type: 'array',
       data: [],
-      content: ''
+      content: '',
     },
     {
       id: 2,
       title: 'Section 2',
       type: 'array',
       data: [],
-      content: ''
+      content: '',
     },
     {
       id: 3,
       title: 'Section 3',
       type: 'text',
       content: '',
-      data: []
+      data: [],
     },
   ];
 

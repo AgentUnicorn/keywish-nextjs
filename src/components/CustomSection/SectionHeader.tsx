@@ -77,20 +77,11 @@ export default function SectionHeader({ id, title, isEditing, onEdit, onUpdate, 
     }
 
     return (
-        <div className="flex w-full relative items-center">
-            <h3
-                className="flex cursor-pointer items-center justify-start me-6 min-w-[300px] truncate text-2xl min-h-[42px] border-b-2 border-fuchsia-300"
-                onClick={onEdit}
-            >
-                {sectionTitle}
-            </h3>
-            <Button
-                variant="default"
-                className="flex items-center text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl font-medium rounded-lg text-sm px-4 py-2.5 text-center me-2 absolute right-0 bottom-0"
-            >
-                Add
-            </Button>
-        </div>
-
+        <h3
+            className="flex cursor-pointer items-center justify-start me-6 min-w-[300px] truncate text-2xl min-h-[42px] border-b-2 border-fuchsia-300"
+            onClick={onEdit}
+        >
+            {sectionTitle}
+        </h3>
     )
 }
